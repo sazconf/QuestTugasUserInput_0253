@@ -53,7 +53,7 @@ Compile the Compose instrumentation APK with:
 
 The main screen uses a `Scaffold` containing a `Box`. The banner is the rear layer and the white rounded form panel is overlaid above it, satisfying the required floating Box structure. The Proceed button remains disabled until all required fields are valid and at least one skill is selected.
 
-All visible application text, custom colors, reusable dimensions, dropdown entries, and dialog copy are stored in Android resources. The actual running application screenshot will be added under `docs/app-running.png` after emulator capture.
+All visible application text, custom colors, reusable dimensions, dropdown entries, and dialog copy are stored in Android resources. The actual running application screenshot is not included yet because this environment has no `adb` executable or connected Android emulator. It must be captured from Android Studio and added as `docs/app-running.png` before final submission; the README should then use `![QuestTugasUserInput_0253 running application](docs/app-running.png)`.
 
 ## Verification status
 
