@@ -22,6 +22,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Scaffold
@@ -247,7 +248,13 @@ fun BiodataScreen() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(dimensionResource(R.dimen.button_height)),
-                        shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner_radius))
+                        shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner_radius)),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.form_primary),
+                            contentColor = colorResource(R.color.white),
+                            disabledContainerColor = colorResource(R.color.disabled_button),
+                            disabledContentColor = colorResource(R.color.white)
+                        )
                     ) {
                         Text(text = stringResource(R.string.proceed))
                     }
