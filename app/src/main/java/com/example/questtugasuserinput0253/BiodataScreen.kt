@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -50,6 +52,9 @@ fun BiodataScreen() {
     var birthDateMillis by rememberSaveable { mutableStateOf<Long?>(null) }
     var experience by rememberSaveable { mutableStateOf("") }
     var experienceMenuExpanded by rememberSaveable { mutableStateOf(false) }
+    var androidSkillSelected by rememberSaveable { mutableStateOf(false) }
+    var uiUxSkillSelected by rememberSaveable { mutableStateOf(false) }
+    var webSkillSelected by rememberSaveable { mutableStateOf(false) }
     val experienceOptions = androidx.compose.ui.res.stringArrayResource(R.array.experience_options)
     val panelShape = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.panel_corner_radius),
@@ -152,6 +157,37 @@ fun BiodataScreen() {
                                 experienceMenuExpanded = false
                             },
                             modifier = Modifier.weight(1f)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.section_gap)))
+                    Text(
+                        text = stringResource(R.string.skills_title),
+                        modifier = Modifier.fillMaxWidth(),
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(R.color.field_text),
+                        fontSize = dimensionResource(R.dimen.field_text_size).value.sp
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = dimensionResource(R.dimen.title_subtitle_gap)),
+                        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        SkillCheckbox(
+                            label = stringResource(R.string.skill_android),
+                            checked = androidSkillSelected,
+                            onCheckedChange = { androidSkillSelected = it }
+                        )
+                        SkillCheckbox(
+                            label = stringResource(R.string.skill_ui_ux),
+                            checked = uiUxSkillSelected,
+                            onCheckedChange = { uiUxSkillSelected = it }
+                        )
+                        SkillCheckbox(
+                            label = stringResource(R.string.skill_web),
+                            checked = webSkillSelected,
+                            onCheckedChange = { webSkillSelected = it }
                         )
                     }
                 }
@@ -286,5 +322,26 @@ private fun ExperienceField(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun SkillCheckbox(
+    label: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            modifier = Modifier.size(dimensionResource(R.dimen.checkbox_size))
+        )
+        Text(
+            text = label,
+            color = colorResource(R.color.field_text),
+            fontSize = dimensionResource(R.dimen.skill_text_size).value.sp,
+            modifier = Modifier.padding(start = dimensionResource(R.dimen.title_subtitle_gap))
+        )
     }
 }
