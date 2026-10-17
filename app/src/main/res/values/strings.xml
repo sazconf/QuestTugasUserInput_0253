@@ -20,9 +20,10 @@
     <string name="validation_birth_date">Pilih tanggal lahir yang valid.</string>
     <string name="validation_skill">Pilih setidaknya satu skill.</string>
     <string name="submission_success_title">Biodata berhasil disimpan</string>
-    <string name="submission_success_message">Data biodata Anda telah lengkap dan valid.</string>
+    <string name="submission_success_message">Nama: %1$s %2$s\nEmail: %3$s\nTgl Lahir: %4$s\nExperience: %5$s\nSkill: %6$s</string>
     <string name="dialog_close">Tutup</string>
     <string name="date_format">dd/MM/yyyy</string>
+    <string name="skill_separator">, </string>
     <string name="banner_description">Neon purple spider banner</string>
     <string-array name="experience_options">
         <item>Beginner</item>

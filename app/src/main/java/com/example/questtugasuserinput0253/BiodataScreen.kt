@@ -89,6 +89,14 @@ fun BiodataScreen() {
         experience.isNotBlank() &&
         !androidSkillSelected && !uiUxSkillSelected && !webSkillSelected
     val experienceOptions = androidx.compose.ui.res.stringArrayResource(R.array.experience_options)
+    val selectedBirthDate = birthDateMillis?.let {
+        SimpleDateFormat(stringResource(R.string.date_format), Locale.getDefault()).format(it)
+    }.orEmpty()
+    val selectedSkills = listOf(
+        if (androidSkillSelected) stringResource(R.string.skill_android) else null,
+        if (uiUxSkillSelected) stringResource(R.string.skill_ui_ux) else null,
+        if (webSkillSelected) stringResource(R.string.skill_web) else null
+    ).filterNotNull().joinToString(stringResource(R.string.skill_separator))
     val panelShape = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.panel_corner_radius),
         topEnd = dimensionResource(R.dimen.panel_corner_radius)
@@ -270,7 +278,19 @@ fun BiodataScreen() {
         AlertDialog(
             onDismissRequest = { showSuccessDialog = false },
             title = { Text(text = stringResource(R.string.submission_success_title)) },
-            text = { Text(text = stringResource(R.string.submission_success_message)) },
+            text = {
+                Text(
+                    text = stringResource(
+                        R.string.submission_success_message,
+                        firstName.trim(),
+                        lastName.trim(),
+                        email.trim(),
+                        selectedBirthDate,
+                        experience,
+                        selectedSkills
+                    )
+                )
+            },
             confirmButton = {
                 TextButton(onClick = { showSuccessDialog = false }) {
                     Text(text = stringResource(R.string.dialog_close))
