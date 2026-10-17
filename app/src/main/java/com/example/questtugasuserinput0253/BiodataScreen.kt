@@ -23,8 +23,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -68,7 +66,7 @@ fun BiodataScreen() {
     var androidSkillSelected by rememberSaveable { mutableStateOf(false) }
     var uiUxSkillSelected by rememberSaveable { mutableStateOf(false) }
     var webSkillSelected by rememberSaveable { mutableStateOf(false) }
-    var showSuccessDialog by rememberSaveable { mutableStateOf(false) }
+    var showSubmittedData by rememberSaveable { mutableStateOf(false) }
     val formIsValid = isBiodataFormValid(
         firstName = firstName,
         lastName = lastName,
@@ -255,7 +253,7 @@ fun BiodataScreen() {
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.section_gap)))
                     Button(
-                        onClick = { showSuccessDialog = true },
+                        onClick = { showSubmittedData = true },
                         enabled = formIsValid,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -270,33 +268,49 @@ fun BiodataScreen() {
                     ) {
                         Text(text = stringResource(R.string.proceed))
                     }
+                    if (showSubmittedData) {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = dimensionResource(R.dimen.section_gap)),
+                            shape = RoundedCornerShape(
+                                dimensionResource(R.dimen.field_corner_radius)
+                            ),
+                            color = colorResource(R.color.screen_background)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(
+                                    dimensionResource(R.dimen.panel_vertical_padding)
+                                )
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.submission_success_title),
+                                    color = colorResource(R.color.form_primary),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = dimensionResource(R.dimen.field_text_size).value.sp
+                                )
+                                Text(
+                                    text = stringResource(
+                                        R.string.submission_success_message,
+                                        firstName.trim(),
+                                        lastName.trim(),
+                                        email.trim(),
+                                        selectedBirthDate,
+                                        experience,
+                                        selectedSkills
+                                    ),
+                                    color = colorResource(R.color.field_text),
+                                    fontSize = dimensionResource(R.dimen.field_text_size).value.sp,
+                                    modifier = Modifier.padding(
+                                        top = dimensionResource(R.dimen.title_subtitle_gap)
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-    if (showSuccessDialog) {
-        AlertDialog(
-            onDismissRequest = { showSuccessDialog = false },
-            title = { Text(text = stringResource(R.string.submission_success_title)) },
-            text = {
-                Text(
-                    text = stringResource(
-                        R.string.submission_success_message,
-                        firstName.trim(),
-                        lastName.trim(),
-                        email.trim(),
-                        selectedBirthDate,
-                        experience,
-                        selectedSkills
-                    )
-                )
-            },
-            confirmButton = {
-                TextButton(onClick = { showSuccessDialog = false }) {
-                    Text(text = stringResource(R.string.dialog_close))
-                }
-            }
-        )
     }
 }
 
