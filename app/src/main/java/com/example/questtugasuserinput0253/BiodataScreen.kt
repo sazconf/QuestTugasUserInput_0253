@@ -320,35 +320,39 @@ private fun BirthDateField(
         SimpleDateFormat(stringResource(R.string.date_format), Locale.getDefault()).format(it)
     }.orEmpty()
 
-    OutlinedTextField(
-        value = displayValue,
-        onValueChange = {},
-        readOnly = true,
-        placeholder = { Text(text = stringResource(R.string.birth_date_hint)) },
-        trailingIcon = {
-            Image(
-                painter = painterResource(R.drawable.ic_calendar),
-                contentDescription = stringResource(R.string.select_birth_date)
-            )
-        },
+    Box(
         modifier = modifier
             .height(dimensionResource(R.dimen.field_height))
             .testTag("birth_date_field")
             .clickable {
                 showBirthDatePicker(context, calendar, onDateSelected)
+            }
+    ) {
+        OutlinedTextField(
+            value = displayValue,
+            onValueChange = {},
+            readOnly = true,
+            placeholder = { Text(text = stringResource(R.string.birth_date_hint)) },
+            trailingIcon = {
+                Image(
+                    painter = painterResource(R.drawable.ic_calendar),
+                    contentDescription = stringResource(R.string.select_birth_date)
+                )
             },
-        shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
-        singleLine = true,
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = colorResource(R.color.form_primary),
-            unfocusedBorderColor = colorResource(R.color.field_border),
-            cursorColor = colorResource(R.color.form_primary)
-        ),
-        textStyle = androidx.compose.ui.text.TextStyle(
-            color = colorResource(R.color.field_text),
-            fontSize = dimensionResource(R.dimen.field_text_size).value.sp
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = colorResource(R.color.form_primary),
+                unfocusedBorderColor = colorResource(R.color.field_border),
+                cursorColor = colorResource(R.color.form_primary)
+            ),
+            textStyle = androidx.compose.ui.text.TextStyle(
+                color = colorResource(R.color.field_text),
+                fontSize = dimensionResource(R.dimen.field_text_size).value.sp
+            )
         )
-    )
+    }
 }
 
 private fun showBirthDatePicker(
@@ -383,7 +387,11 @@ private fun ExperienceField(
     onOptionSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier) {
+    Box(
+        modifier = modifier
+            .testTag("experience_field")
+            .clickable { onExpandedChange(true) }
+    ) {
         OutlinedTextField(
             value = value,
             onValueChange = {},
@@ -397,9 +405,7 @@ private fun ExperienceField(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(R.dimen.field_height))
-                .testTag("experience_field")
-                .clickable { onExpandedChange(true) },
+                .height(dimensionResource(R.dimen.field_height)),
             shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
