@@ -76,7 +76,7 @@ fun BiodataScreen() {
         nowMillis = System.currentTimeMillis()
     )
     val emailIsInvalid = email.isNotBlank() &&
-        !android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
+        !androidx.core.util.PatternsCompat.EMAIL_ADDRESS.matcher(email.trim()).matches()
     val skillsAreMissing = firstName.isNotBlank() &&
         lastName.isNotBlank() &&
         !emailIsInvalid &&

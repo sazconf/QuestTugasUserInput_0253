@@ -1,6 +1,6 @@
 package com.example.questtugasuserinput0253
 
-import android.util.Patterns
+import androidx.core.util.PatternsCompat
 
 internal fun isBiodataFormValid(
     firstName: String,
@@ -15,7 +15,7 @@ internal fun isBiodataFormValid(
 ): Boolean {
     return firstName.trim().isNotEmpty() &&
         lastName.trim().isNotEmpty() &&
-        Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() &&
+        PatternsCompat.EMAIL_ADDRESS.matcher(email.trim()).matches() &&
         birthDateMillis != null &&
         birthDateMillis <= nowMillis &&
         experience.isNotBlank() &&
