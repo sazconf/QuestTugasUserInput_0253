@@ -40,6 +40,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.zIndex
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
@@ -422,6 +423,7 @@ private fun ExperienceField(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .zIndex(1f)
                 .testTag("experience_field")
                 .clickable { onExpandedChange(true) }
         )

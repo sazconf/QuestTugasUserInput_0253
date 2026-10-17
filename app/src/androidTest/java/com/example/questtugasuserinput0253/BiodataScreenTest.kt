@@ -36,4 +36,12 @@ class BiodataScreenTest {
         composeRule.onNodeWithTag("birth_date_field").assertIsDisplayed()
         composeRule.onNodeWithTag("experience_field").assertIsDisplayed()
     }
+
+    @Test
+    fun experienceFieldOpensOptions() {
+        composeRule.onNodeWithTag("experience_field").performClick()
+        composeRule.onNodeWithText("Beginner").assertIsDisplayed()
+        composeRule.onNodeWithText("Intermediate").assertIsDisplayed()
+        composeRule.onNodeWithText("Advanced").assertIsDisplayed()
+    }
 }
