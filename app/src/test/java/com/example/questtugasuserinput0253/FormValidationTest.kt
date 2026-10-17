@@ -57,4 +57,21 @@ class FormValidationTest {
             )
         )
     }
+
+    @Test
+    fun trimsNamesAndEmailBeforeValidation() {
+        assertTrue(
+            isBiodataFormValid(
+                firstName = "  Ada ",
+                lastName = " Lovelace ",
+                email = " ada@example.com ",
+                birthDateMillis = now,
+                experience = "Intermediate",
+                androidSkillSelected = false,
+                uiUxSkillSelected = false,
+                webSkillSelected = true,
+                nowMillis = now
+            )
+        )
+    }
 }
