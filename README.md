@@ -17,7 +17,7 @@ QuestTugasUserInput_0253 is a native Android biodata form built with Kotlin and 
 - Resource-defined Beginner, Intermediate, and Advanced experience options
 - Independent Android, UI/UX, and Web skill checkboxes
 - Disabled Proceed button until the form is valid
-- Confirmation dialog after valid submission
+- Inline submitted-data panel after valid submission
 - Scrollable, IME-aware form panel
 
 ## Project structure
@@ -53,7 +53,15 @@ Compile the Compose instrumentation APK with:
 
 The main screen uses a `Scaffold` containing a `Box`. The banner is the rear layer and the white rounded form panel is overlaid above it, satisfying the required floating Box structure. The Proceed button remains disabled until all required fields are valid and at least one skill is selected.
 
-All visible application text, custom colors, reusable dimensions, dropdown entries, and dialog copy are stored in Android resources. The actual running application screenshot is not included yet because this environment has no `adb` executable or connected Android emulator. It must be captured from Android Studio and added as `docs/app-running.png` before final submission; the README should then use `![QuestTugasUserInput_0253 running application](docs/app-running.png)`.
+All visible application text, custom colors, reusable dimensions, dropdown entries, and result copy are stored in Android resources.
+
+## Running application screenshots
+
+![QuestTugasUserInput_0253 completed form](docs/app-running-filled.png)
+
+![QuestTugasUserInput_0253 submitted biodata result](docs/app-running-result.png)
+
+These screenshots show the application running with a completed form and the submitted-data panel displayed below the form.
 
 ## Verification status
 
@@ -64,4 +72,4 @@ The final available verification completed successfully:
 - `assembleDebugAndroidTest`
 - `lintDebug`
 
-Runtime instrumentation execution and the final emulator screenshot still require an available Android emulator.
+Runtime instrumentation execution still requires an available Android emulator in this environment.
