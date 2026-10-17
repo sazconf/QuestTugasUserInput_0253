@@ -30,4 +30,10 @@ class BiodataScreenTest {
         androidCheckbox.assertIsOn()
         webCheckbox.assertIsOn()
     }
+
+    @Test
+    fun dateAndExperienceControlsArePresent() {
+        composeRule.onNodeWithTag("birth_date_field").assertIsDisplayed()
+        composeRule.onNodeWithTag("experience_field").assertIsDisplayed()
+    }
 }

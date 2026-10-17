@@ -333,6 +333,7 @@ private fun BirthDateField(
         },
         modifier = modifier
             .height(dimensionResource(R.dimen.field_height))
+            .testTag("birth_date_field")
             .clickable {
                 showBirthDatePicker(context, calendar, onDateSelected)
             },
@@ -397,6 +398,7 @@ private fun ExperienceField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(dimensionResource(R.dimen.field_height))
+                .testTag("experience_field")
                 .clickable { onExpandedChange(true) },
             shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
             singleLine = true,
