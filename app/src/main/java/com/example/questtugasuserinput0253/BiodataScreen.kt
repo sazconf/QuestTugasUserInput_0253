@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -328,7 +329,13 @@ private fun BiodataTextField(
         value = value,
         onValueChange = onValueChange,
         placeholder = { Text(text = hint) },
-        modifier = modifier.height(dimensionResource(R.dimen.field_height)),
+        modifier = modifier.then(
+            if (errorText == null) {
+                Modifier.height(dimensionResource(R.dimen.field_height))
+            } else {
+                Modifier.heightIn(min = dimensionResource(R.dimen.field_height))
+            }
+        ),
         shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
         singleLine = true,
         keyboardOptions = keyboardOptions,
