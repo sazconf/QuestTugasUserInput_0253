@@ -57,4 +57,11 @@ All visible application text, custom colors, reusable dimensions, dropdown entri
 
 ## Verification status
 
-The debug unit-test task, debug/instrumentation APK compilation, and Android lint task have completed successfully. Runtime instrumentation execution and the final emulator screenshot still require an available Android emulator.
+The final available verification completed successfully:
+
+- `testDebugUnitTest`
+- `assembleDebug`
+- `assembleDebugAndroidTest`
+- `lintDebug`
+
+Runtime instrumentation execution and the final emulator screenshot still require an available Android emulator.
