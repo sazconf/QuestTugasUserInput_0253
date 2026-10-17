@@ -339,6 +339,7 @@ private fun BiodataTextField(
             focusedTextColor = colorResource(R.color.field_text),
             unfocusedTextColor = colorResource(R.color.field_text),
             errorTextColor = colorResource(R.color.field_text),
+            errorCursorColor = colorResource(R.color.form_primary),
             focusedPlaceholderColor = colorResource(R.color.subtitle_text),
             unfocusedPlaceholderColor = colorResource(R.color.subtitle_text)
         ),
