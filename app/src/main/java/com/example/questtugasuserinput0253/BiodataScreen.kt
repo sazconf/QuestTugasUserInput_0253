@@ -335,7 +335,12 @@ private fun BiodataTextField(
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = colorResource(R.color.form_primary),
             unfocusedBorderColor = colorResource(R.color.field_border),
-            cursorColor = colorResource(R.color.form_primary)
+            cursorColor = colorResource(R.color.form_primary),
+            focusedTextColor = colorResource(R.color.field_text),
+            unfocusedTextColor = colorResource(R.color.field_text),
+            errorTextColor = colorResource(R.color.field_text),
+            focusedPlaceholderColor = colorResource(R.color.subtitle_text),
+            unfocusedPlaceholderColor = colorResource(R.color.subtitle_text)
         ),
         isError = isError,
         supportingText = errorText?.let { message -> { Text(message) } },
