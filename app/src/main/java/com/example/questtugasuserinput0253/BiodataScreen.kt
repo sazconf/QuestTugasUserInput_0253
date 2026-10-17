@@ -321,12 +321,7 @@ private fun BirthDateField(
     }.orEmpty()
 
     Box(
-        modifier = modifier
-            .height(dimensionResource(R.dimen.field_height))
-            .testTag("birth_date_field")
-            .clickable {
-                showBirthDatePicker(context, calendar, onDateSelected)
-            }
+        modifier = modifier.height(dimensionResource(R.dimen.field_height))
     ) {
         OutlinedTextField(
             value = displayValue,
@@ -351,6 +346,14 @@ private fun BirthDateField(
                 color = colorResource(R.color.field_text),
                 fontSize = dimensionResource(R.dimen.field_text_size).value.sp
             )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("birth_date_field")
+                .clickable {
+                    showBirthDatePicker(context, calendar, onDateSelected)
+                }
         )
     }
 }
@@ -389,8 +392,6 @@ private fun ExperienceField(
 ) {
     Box(
         modifier = modifier
-            .testTag("experience_field")
-            .clickable { onExpandedChange(true) }
     ) {
         OutlinedTextField(
             value = value,
@@ -417,6 +418,12 @@ private fun ExperienceField(
                 color = colorResource(R.color.field_text),
                 fontSize = dimensionResource(R.dimen.field_text_size).value.sp
             )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("experience_field")
+                .clickable { onExpandedChange(true) }
         )
         DropdownMenu(
             expanded = expanded,
