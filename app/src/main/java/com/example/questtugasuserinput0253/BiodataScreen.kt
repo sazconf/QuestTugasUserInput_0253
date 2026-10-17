@@ -30,8 +30,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
@@ -383,6 +386,7 @@ private fun showBirthDatePicker(
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 private fun ExperienceField(
     value: String,
     options: Array<String>,
@@ -391,7 +395,9 @@ private fun ExperienceField(
     onOptionSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = onExpandedChange,
         modifier = modifier
     ) {
         OutlinedTextField(
@@ -400,14 +406,14 @@ private fun ExperienceField(
             readOnly = true,
             placeholder = { Text(text = stringResource(R.string.experience_hint)) },
             trailingIcon = {
-                Image(
-                    painter = painterResource(R.drawable.ic_dropdown),
-                    contentDescription = stringResource(R.string.experience_hint)
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = expanded
                 )
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(R.dimen.field_height)),
+                .height(dimensionResource(R.dimen.field_height))
+                .menuAnchor(),
             shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
@@ -419,13 +425,6 @@ private fun ExperienceField(
                 color = colorResource(R.color.field_text),
                 fontSize = dimensionResource(R.dimen.field_text_size).value.sp
             )
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .zIndex(1f)
-                .testTag("experience_field")
-                .clickable { onExpandedChange(true) }
         )
         DropdownMenu(
             expanded = expanded,
