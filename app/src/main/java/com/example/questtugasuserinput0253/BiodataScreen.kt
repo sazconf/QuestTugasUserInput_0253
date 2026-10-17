@@ -1,5 +1,10 @@
 package com.example.questtugasuserinput0253
 
+import android.app.DatePickerDialog
+import android.content.Context
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,12 +14,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
@@ -26,6 +34,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -38,6 +47,10 @@ fun BiodataScreen() {
     var firstName by rememberSaveable { mutableStateOf("") }
     var lastName by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
+    var birthDateMillis by rememberSaveable { mutableStateOf<Long?>(null) }
+    var experience by rememberSaveable { mutableStateOf("") }
+    var experienceMenuExpanded by rememberSaveable { mutableStateOf(false) }
+    val experienceOptions = androidx.compose.ui.res.stringArrayResource(R.array.experience_options)
     val panelShape = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.panel_corner_radius),
         topEnd = dimensionResource(R.dimen.panel_corner_radius)
@@ -117,6 +130,30 @@ fun BiodataScreen() {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         modifier = Modifier.fillMaxWidth()
                     )
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.row_gap)))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(
+                            dimensionResource(R.dimen.field_gap)
+                        )
+                    ) {
+                        BirthDateField(
+                            selectedDateMillis = birthDateMillis,
+                            onDateSelected = { birthDateMillis = it },
+                            modifier = Modifier.weight(1f)
+                        )
+                        ExperienceField(
+                            value = experience,
+                            options = experienceOptions,
+                            expanded = experienceMenuExpanded,
+                            onExpandedChange = { experienceMenuExpanded = it },
+                            onOptionSelected = {
+                                experience = it
+                                experienceMenuExpanded = false
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }
@@ -144,4 +181,110 @@ private fun BiodataTextField(
             fontSize = dimensionResource(R.dimen.field_text_size).value.sp
         )
     )
+}
+
+@Composable
+private fun BirthDateField(
+    selectedDateMillis: Long?,
+    onDateSelected: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    val displayValue = selectedDateMillis?.let {
+        SimpleDateFormat(stringResource(R.string.date_format), Locale.getDefault()).format(it)
+    }.orEmpty()
+
+    OutlinedTextField(
+        value = displayValue,
+        onValueChange = {},
+        readOnly = true,
+        placeholder = { Text(text = stringResource(R.string.birth_date_hint)) },
+        trailingIcon = {
+            Image(
+                painter = painterResource(R.drawable.ic_calendar),
+                contentDescription = stringResource(R.string.select_birth_date)
+            )
+        },
+        modifier = modifier
+            .height(dimensionResource(R.dimen.field_height))
+            .clickable {
+                showBirthDatePicker(context, calendar, onDateSelected)
+            },
+        shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
+        singleLine = true,
+        textStyle = androidx.compose.ui.text.TextStyle(
+            color = colorResource(R.color.field_text),
+            fontSize = dimensionResource(R.dimen.field_text_size).value.sp
+        )
+    )
+}
+
+private fun showBirthDatePicker(
+    context: Context,
+    initialDate: Calendar,
+    onDateSelected: (Long) -> Unit
+) {
+    DatePickerDialog(
+        context,
+        { _, year, month, day ->
+            val selected = Calendar.getInstance().apply {
+                set(year, month, day, 0, 0, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            onDateSelected(selected.timeInMillis)
+        },
+        initialDate.get(Calendar.YEAR),
+        initialDate.get(Calendar.MONTH),
+        initialDate.get(Calendar.DAY_OF_MONTH)
+    ).apply {
+        datePicker.maxDate = System.currentTimeMillis()
+        setTitle(context.getString(R.string.select_birth_date))
+    }.show()
+}
+
+@Composable
+private fun ExperienceField(
+    value: String,
+    options: Array<String>,
+    expanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
+    onOptionSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = {},
+            readOnly = true,
+            placeholder = { Text(text = stringResource(R.string.experience_hint)) },
+            trailingIcon = {
+                Image(
+                    painter = painterResource(R.drawable.ic_dropdown),
+                    contentDescription = stringResource(R.string.experience_hint)
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(R.dimen.field_height))
+                .clickable { onExpandedChange(true) },
+            shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
+            singleLine = true,
+            textStyle = androidx.compose.ui.text.TextStyle(
+                color = colorResource(R.color.field_text),
+                fontSize = dimensionResource(R.dimen.field_text_size).value.sp
+            )
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onExpandedChange(false) }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = { onOptionSelected(option) }
+                )
+            }
+        }
+    }
 }

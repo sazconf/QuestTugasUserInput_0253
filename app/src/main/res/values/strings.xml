@@ -22,6 +22,7 @@
     <string name="submission_success_title">Biodata berhasil disimpan</string>
     <string name="submission_success_message">Data biodata Anda telah lengkap dan valid.</string>
     <string name="dialog_close">Tutup</string>
+    <string name="date_format">dd/MM/yyyy</string>
     <string-array name="experience_options">
         <item>Beginner</item>
         <item>Intermediate</item>
