@@ -70,6 +70,14 @@ fun BiodataScreen() {
         birthDateMillis!! <= System.currentTimeMillis() &&
         experience.isNotBlank() &&
         (androidSkillSelected || uiUxSkillSelected || webSkillSelected)
+    val emailIsInvalid = email.isNotBlank() &&
+        !android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
+    val skillsAreMissing = firstName.isNotBlank() &&
+        lastName.isNotBlank() &&
+        !emailIsInvalid &&
+        birthDateMillis != null &&
+        experience.isNotBlank() &&
+        !androidSkillSelected && !uiUxSkillSelected && !webSkillSelected
     val experienceOptions = androidx.compose.ui.res.stringArrayResource(R.array.experience_options)
     val panelShape = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.panel_corner_radius),
@@ -151,6 +159,12 @@ fun BiodataScreen() {
                         onValueChange = { email = it },
                         hint = stringResource(R.string.email_hint),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        isError = emailIsInvalid,
+                        errorText = if (emailIsInvalid) {
+                            stringResource(R.string.validation_email)
+                        } else {
+                            null
+                        },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.row_gap)))
@@ -175,6 +189,16 @@ fun BiodataScreen() {
                                 experienceMenuExpanded = false
                             },
                             modifier = Modifier.weight(1f)
+                        )
+                    }
+                    if (skillsAreMissing) {
+                        Text(
+                            text = stringResource(R.string.validation_skill),
+                            color = colorResource(R.color.error_text),
+                            fontSize = dimensionResource(R.dimen.skill_text_size).value.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = dimensionResource(R.dimen.title_subtitle_gap))
                         )
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.section_gap)))
@@ -243,7 +267,9 @@ private fun BiodataTextField(
     onValueChange: (String) -> Unit,
     hint: String,
     modifier: Modifier = Modifier,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    isError: Boolean = false,
+    errorText: String? = null
 ) {
     OutlinedTextField(
         value = value,
@@ -258,6 +284,8 @@ private fun BiodataTextField(
             unfocusedBorderColor = colorResource(R.color.field_border),
             cursorColor = colorResource(R.color.form_primary)
         ),
+        isError = isError,
+        supportingText = errorText?.let { message -> { Text(message) } },
         textStyle = androidx.compose.ui.text.TextStyle(
             color = colorResource(R.color.field_text),
             fontSize = dimensionResource(R.dimen.field_text_size).value.sp
