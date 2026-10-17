@@ -28,6 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.Composable
@@ -252,6 +253,11 @@ private fun BiodataTextField(
         shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
         singleLine = true,
         keyboardOptions = keyboardOptions,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = colorResource(R.color.form_primary),
+            unfocusedBorderColor = colorResource(R.color.field_border),
+            cursorColor = colorResource(R.color.form_primary)
+        ),
         textStyle = androidx.compose.ui.text.TextStyle(
             color = colorResource(R.color.field_text),
             fontSize = dimensionResource(R.dimen.field_text_size).value.sp
@@ -289,6 +295,11 @@ private fun BirthDateField(
             },
         shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
         singleLine = true,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = colorResource(R.color.form_primary),
+            unfocusedBorderColor = colorResource(R.color.field_border),
+            cursorColor = colorResource(R.color.form_primary)
+        ),
         textStyle = androidx.compose.ui.text.TextStyle(
             color = colorResource(R.color.field_text),
             fontSize = dimensionResource(R.dimen.field_text_size).value.sp
@@ -346,6 +357,11 @@ private fun ExperienceField(
                 .clickable { onExpandedChange(true) },
             shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner_radius)),
             singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = colorResource(R.color.form_primary),
+                unfocusedBorderColor = colorResource(R.color.field_border),
+                cursorColor = colorResource(R.color.form_primary)
+            ),
             textStyle = androidx.compose.ui.text.TextStyle(
                 color = colorResource(R.color.field_text),
                 fontSize = dimensionResource(R.dimen.field_text_size).value.sp
