@@ -101,7 +101,7 @@ fun BiodataScreen() {
         ) {
             Image(
                 painter = painterResource(R.drawable.neon_spider_banner),
-                contentDescription = null,
+                contentDescription = stringResource(R.string.banner_description),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()

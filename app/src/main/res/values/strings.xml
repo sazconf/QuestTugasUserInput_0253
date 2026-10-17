@@ -23,6 +23,7 @@
     <string name="submission_success_message">Data biodata Anda telah lengkap dan valid.</string>
     <string name="dialog_close">Tutup</string>
     <string name="date_format">dd/MM/yyyy</string>
+    <string name="banner_description">Neon purple spider banner</string>
     <string-array name="experience_options">
         <item>Beginner</item>
         <item>Intermediate</item>
