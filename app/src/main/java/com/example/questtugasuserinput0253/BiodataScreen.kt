@@ -64,13 +64,17 @@ fun BiodataScreen() {
     var uiUxSkillSelected by rememberSaveable { mutableStateOf(false) }
     var webSkillSelected by rememberSaveable { mutableStateOf(false) }
     var showSuccessDialog by rememberSaveable { mutableStateOf(false) }
-    val formIsValid = firstName.trim().isNotEmpty() &&
-        lastName.trim().isNotEmpty() &&
-        android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() &&
-        birthDateMillis != null &&
-        birthDateMillis!! <= System.currentTimeMillis() &&
-        experience.isNotBlank() &&
-        (androidSkillSelected || uiUxSkillSelected || webSkillSelected)
+    val formIsValid = isBiodataFormValid(
+        firstName = firstName,
+        lastName = lastName,
+        email = email,
+        birthDateMillis = birthDateMillis,
+        experience = experience,
+        androidSkillSelected = androidSkillSelected,
+        uiUxSkillSelected = uiUxSkillSelected,
+        webSkillSelected = webSkillSelected,
+        nowMillis = System.currentTimeMillis()
+    )
     val emailIsInvalid = email.isNotBlank() &&
         !android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
     val skillsAreMissing = firstName.isNotBlank() &&
