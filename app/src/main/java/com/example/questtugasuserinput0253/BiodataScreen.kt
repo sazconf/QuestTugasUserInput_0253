@@ -44,6 +44,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -219,17 +220,20 @@ fun BiodataScreen() {
                         SkillCheckbox(
                             label = stringResource(R.string.skill_android),
                             checked = androidSkillSelected,
-                            onCheckedChange = { androidSkillSelected = it }
+                            onCheckedChange = { androidSkillSelected = it },
+                            testTag = "skill_android"
                         )
                         SkillCheckbox(
                             label = stringResource(R.string.skill_ui_ux),
                             checked = uiUxSkillSelected,
-                            onCheckedChange = { uiUxSkillSelected = it }
+                            onCheckedChange = { uiUxSkillSelected = it },
+                            testTag = "skill_ui_ux"
                         )
                         SkillCheckbox(
                             label = stringResource(R.string.skill_web),
                             checked = webSkillSelected,
-                            onCheckedChange = { webSkillSelected = it }
+                            onCheckedChange = { webSkillSelected = it },
+                            testTag = "skill_web"
                         )
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.section_gap)))
@@ -413,13 +417,16 @@ private fun ExperienceField(
 private fun SkillCheckbox(
     label: String,
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit,
+    testTag: String
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,
-            modifier = Modifier.size(dimensionResource(R.dimen.checkbox_size))
+            modifier = Modifier
+                .size(dimensionResource(R.dimen.checkbox_size))
+                .testTag(testTag)
         )
         Text(
             text = label,
