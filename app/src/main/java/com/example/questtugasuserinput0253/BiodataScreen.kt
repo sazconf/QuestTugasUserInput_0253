@@ -19,6 +19,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Button
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -55,6 +58,14 @@ fun BiodataScreen() {
     var androidSkillSelected by rememberSaveable { mutableStateOf(false) }
     var uiUxSkillSelected by rememberSaveable { mutableStateOf(false) }
     var webSkillSelected by rememberSaveable { mutableStateOf(false) }
+    var showSuccessDialog by rememberSaveable { mutableStateOf(false) }
+    val formIsValid = firstName.trim().isNotEmpty() &&
+        lastName.trim().isNotEmpty() &&
+        android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() &&
+        birthDateMillis != null &&
+        birthDateMillis!! <= System.currentTimeMillis() &&
+        experience.isNotBlank() &&
+        (androidSkillSelected || uiUxSkillSelected || webSkillSelected)
     val experienceOptions = androidx.compose.ui.res.stringArrayResource(R.array.experience_options)
     val panelShape = RoundedCornerShape(
         topStart = dimensionResource(R.dimen.panel_corner_radius),
@@ -190,9 +201,32 @@ fun BiodataScreen() {
                             onCheckedChange = { webSkillSelected = it }
                         )
                     }
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.section_gap)))
+                    Button(
+                        onClick = { showSuccessDialog = true },
+                        enabled = formIsValid,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(dimensionResource(R.dimen.button_height)),
+                        shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner_radius))
+                    ) {
+                        Text(text = stringResource(R.string.proceed))
+                    }
                 }
             }
         }
+    }
+    if (showSuccessDialog) {
+        AlertDialog(
+            onDismissRequest = { showSuccessDialog = false },
+            title = { Text(text = stringResource(R.string.submission_success_title)) },
+            text = { Text(text = stringResource(R.string.submission_success_message)) },
+            confirmButton = {
+                TextButton(onClick = { showSuccessDialog = false }) {
+                    Text(text = stringResource(R.string.dialog_close))
+                }
+            }
+        )
     }
 }
 
